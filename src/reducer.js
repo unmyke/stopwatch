@@ -5,7 +5,7 @@ const reducer = (state = 0, action) => {
     case CHANGE_INTERVAL:
       return (state += action.payload);
     default:
-      return {};
+      return state;
   }
 };
 
