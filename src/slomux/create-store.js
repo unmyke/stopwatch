@@ -1,8 +1,12 @@
+const GET_INITIAL_STATE = "GET_INITIAL_STATE";
+
 const createStore = (reducer, initialState) => {
-  let currentState = initialState;
+  let currentState =
+    initialState || reducer(undefined, { type: GET_INITIAL_STATE });
   let listeners = [];
 
   const getState = () => currentState;
+
   const dispatch = action => {
     currentState = reducer(currentState, action);
     listeners.forEach(listener => listener());
