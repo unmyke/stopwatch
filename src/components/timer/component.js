@@ -10,17 +10,37 @@ class TimerComponent extends React.Component {
 
   isStarted = () =>
     this.state.currentIntervalId !== this.initState.currentIntervalId;
+  intervalIsNotSet = () => this.props.currentInterval === 0;
+  startIsDisabled = () => this.intervalIsNotSet() || this.isStarted();
+  stopIsDisabled = () => !this.isStarted();
 
   render() {
+    const {
+      state: { currentTime },
+      isStarted,
+      startIsDisabled,
+      stopIsDisabled,
+      handleStart,
+      handleStop
+    } = this;
+
     return (
       <div>
-        <Interval />
-        <div>Секундомер: {this.state.currentTime} сек.</div>
+        <Interval disabled={isStarted()} />
+        <div>Секундомер: {currentTime} сек.</div>
         <div>
-          <button type="button" onClick={this.handleStart}>
+          <button
+            type="button"
+            onClick={handleStart}
+            disabled={startIsDisabled()}
+          >
             Старт
           </button>
-          <button type="button" onClick={this.handleStop}>
+          <button
+            type="button"
+            onClick={handleStop}
+            disabled={stopIsDisabled()}
+          >
             Стоп
           </button>
         </div>
