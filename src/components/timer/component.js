@@ -2,9 +2,10 @@ import React from "react";
 import Interval from "../interval";
 
 class TimerComponent extends React.Component {
-  state = {
+  initState = {
     currentTime: 0
   };
+  state = this.initState;
 
   render() {
     return (
