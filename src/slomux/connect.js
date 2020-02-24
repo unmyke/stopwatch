@@ -17,6 +17,10 @@ const connect = (mapStateToProps, mapDispatchToProps) => Component => {
       this.context.store.subscribe(this.handleChange);
     }
 
+    componentWillUnmount() {
+      this.context.store.unsubscribe(this.handleChange);
+    }
+
     handleChange = () => {
       this.forceUpdate();
     };
