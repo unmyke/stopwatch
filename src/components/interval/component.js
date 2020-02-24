@@ -2,8 +2,8 @@ import React from "react";
 
 class IntervalComponent extends React.Component {
   render() {
-    const { currentInterval, changeInterval } = this.props;
-    const decrementIsDisabled = currentInterval === 0;
+    const { currentInterval, disabled, changeInterval } = this.props;
+    const decrementIsDisabled = disabled || currentInterval === 0;
 
     return (
       <div>
@@ -18,7 +18,11 @@ class IntervalComponent extends React.Component {
           >
             -
           </button>
-          <button type="button" onClick={() => changeInterval(1)}>
+          <button
+            type="button"
+            onClick={() => changeInterval(1)}
+            disabled={disabled}
+          >
             +
           </button>
         </span>
