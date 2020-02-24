@@ -13,7 +13,7 @@ const connect = (mapStateToProps, mapDispatchToProps) => Component => {
       );
     }
 
-    componentDidUpdate() {
+    componentDidMount() {
       this.context.store.subscribe(this.handleChange);
     }
 
