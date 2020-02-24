@@ -23,7 +23,7 @@ class TimerComponent extends React.Component {
     );
   }
 
-  handleStart() {
+  handleStart = () => {
     setTimeout(
       () =>
         this.setState({
@@ -31,11 +31,11 @@ class TimerComponent extends React.Component {
         }),
       this.props.currentInterval
     );
-  }
+  };
 
-  handleStop() {
+  handleStop = () => {
     this.setState({ currentTime: 0 });
-  }
+  };
 }
 
 export default TimerComponent;
