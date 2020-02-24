@@ -1,34 +1,31 @@
 import React from "react";
 
-class IntervalComponent extends React.Component {
-  render() {
-    const { currentInterval, disabled, changeInterval } = this.props;
-    const decrementIsDisabled = disabled || currentInterval === 0;
+const IntervalComponent = ({ currentInterval, disabled, changeInterval }) => {
+  const currentIntervalIsNotSet = currentInterval === 0;
+  const decrementIsDisabled = disabled || currentIntervalIsNotSet;
+  const incrementIsDisabled = disabled;
 
-    return (
-      <div>
-        <span>
-          Интервал обновления секундомера: {this.props.currentInterval} сек.
-        </span>
-        <span>
-          <button
-            type="button"
-            onClick={() => changeInterval(-1)}
-            disabled={decrementIsDisabled}
-          >
-            -
-          </button>
-          <button
-            type="button"
-            onClick={() => changeInterval(1)}
-            disabled={disabled}
-          >
-            +
-          </button>
-        </span>
-      </div>
-    );
-  }
-}
+  return (
+    <div>
+      <span>Интервал обновления секундомера: {currentInterval} сек.</span>
+      <span>
+        <button
+          type="button"
+          onClick={() => changeInterval(-1)}
+          disabled={decrementIsDisabled}
+        >
+          -
+        </button>
+        <button
+          type="button"
+          onClick={() => changeInterval(1)}
+          disabled={incrementIsDisabled}
+        >
+          +
+        </button>
+      </span>
+    </div>
+  );
+};
 
 export default IntervalComponent;
