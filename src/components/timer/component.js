@@ -1,69 +1,52 @@
 import React from "react";
 import Interval from "../interval";
 
-class TimerComponent extends React.Component {
-  initState = {
-    currentTime: 0,
-    currentIntervalId: 0
-  };
-  state = this.initState;
+import useTimerReducer from "./use-timer-reducer";
 
-  isStarted = () =>
-    this.state.currentIntervalId !== this.initState.currentIntervalId;
-  intervalIsNotSet = () => this.props.currentInterval === 0;
-  startIsDisabled = () => this.intervalIsNotSet() || this.isStarted();
-  stopIsDisabled = () => !this.isStarted();
+const TimerComponent = ({ currentInterval }) => {
+  // state
+  const [
+    { currentTime, currentIntervalId },
+    { dispatchIncreaseTime, dispatchUpdateIntervalId, dispatchReset }
+  ] = useTimerReducer();
 
-  render() {
-    const {
-      state: { currentTime },
-      isStarted,
-      startIsDisabled,
-      stopIsDisabled,
-      handleStart,
-      handleStop
-    } = this;
+  // boolean state representation
+  const isStarted = currentIntervalId !== 0;
+  const isStopped = !isStarted;
+  const intervalIsNotSetted = currentInterval === 0;
+  const startIsDisable = intervalIsNotSetted || isStarted;
 
-    return (
-      <div>
-        <Interval disabled={isStarted()} />
-        <div>Секундомер: {currentTime} сек.</div>
-        <div>
-          <button
-            type="button"
-            onClick={handleStart}
-            disabled={startIsDisabled()}
-          >
-            Старт
-          </button>
-          <button
-            type="button"
-            onClick={handleStop}
-            disabled={stopIsDisabled()}
-          >
-            Стоп
-          </button>
-        </div>
-      </div>
-    );
-  }
-
-  handleStart = () => {
+  // button handlers
+  const handleStart = () => {
     const nextIntervalId = setInterval(() => {
-      const nextTime = this.state.currentTime + this.props.currentInterval;
+      dispatchIncreaseTime(currentInterval);
+    }, currentInterval * 1000);
 
-      this.setState({ currentTime: nextTime });
-    }, this.props.currentInterval * 1000);
-
-    this.setState({ currentIntervalId: nextIntervalId });
+    dispatchUpdateIntervalId(nextIntervalId);
   };
 
-  handleStop = () => {
-    if (this.isStarted()) {
-      clearInterval(this.state.currentIntervalId);
-      this.setState({ ...this.initState });
+  const handleStop = () => {
+    if (isStarted) {
+      clearInterval(currentIntervalId);
+      dispatchReset();
     }
   };
-}
+
+  // render
+  return (
+    <div>
+      <Interval disabled={isStarted} />
+      <div>Секундомер: {currentTime} сек.</div>
+      <div>
+        <button type="button" onClick={handleStart} disabled={startIsDisable}>
+          Старт
+        </button>
+        <button type="button" onClick={handleStop} disabled={isStopped}>
+          Стоп
+        </button>
+      </div>
+    </div>
+  );
+};
 
 export default TimerComponent;
