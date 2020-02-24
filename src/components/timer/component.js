@@ -3,9 +3,13 @@ import Interval from "../interval";
 
 class TimerComponent extends React.Component {
   initState = {
-    currentTime: 0
+    currentTime: 0,
+    currentIntervalId: 0
   };
   state = this.initState;
+
+  isStarted = () =>
+    this.state.currentIntervalId !== this.initState.currentIntervalId;
 
   render() {
     return (
@@ -25,17 +29,20 @@ class TimerComponent extends React.Component {
   }
 
   handleStart = () => {
-    setInterval(
-      () =>
-        this.setState({
-          currentTime: this.state.currentTime + this.props.currentInterval
-        }),
-      this.props.currentInterval * 1000
-    );
+    const nextIntervalId = setInterval(() => {
+      const nextTime = this.state.currentTime + this.props.currentInterval;
+
+      this.setState({ currentTime: nextTime });
+    }, this.props.currentInterval * 1000);
+
+    this.setState({ currentIntervalId: nextIntervalId });
   };
 
   handleStop = () => {
-    this.setState({ currentTime: 0 });
+    if (this.isStarted()) {
+      clearInterval(this.state.currentIntervalId);
+      this.setState({ ...this.initState });
+    }
   };
 }
 
