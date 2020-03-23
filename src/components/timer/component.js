@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import Interval from "../interval";
 
 import useTimerReducer from "./use-timer-reducer";
@@ -31,6 +31,13 @@ const TimerComponent = ({ currentInterval }) => {
       dispatchReset();
     }
   };
+
+  // lifecycle hooks
+  useEffect(() => {
+    return () => {
+      handleStop()
+    }
+  })
 
   // render
   return (
