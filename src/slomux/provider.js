@@ -1,20 +1,13 @@
 import React from "react";
-import PropTypes from "prop-types";
+import StoreContext from "./store-context";
 
-class Provider extends React.Component {
-  getChildContext() {
-    return {
-      store: this.props.store
-    };
-  }
 
-  render() {
-    return React.Children.only(this.props.children);
-  }
+const Provider = ({ children, store }) => {
+  return (
+    <StoreContext.Provider value={store}>
+      {children}
+    </StoreContext.Provider>
+  )
 }
-
-Provider.childContextTypes = {
-  store: PropTypes.object
-};
 
 export default Provider;
