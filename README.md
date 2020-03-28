@@ -86,6 +86,6 @@ $ npm build
   - запуск секундомера при незаданном значение интервала (отключение кнопки __"Старт"__);
   - остановка уже остановленного секундомера (отключение кнопки __"Стоп"__);
 
-- классовый компонент `TimerComponent` заменен функциональным, хранение состояния UI реализовано с помощью хука [`useReducer`](https://ru.reactjs.org/docs/hooks-reference.html#usereducer).
+- классовый компонент `TimerComponent` заменен функциональным, хранение состояния UI реализовано с помощью хука [`useState`](https://ru.reactjs.org/docs/hooks-state.html).
 
 ## [Демо](https://codepen.io/unmyke/pen/YzXGazw)
