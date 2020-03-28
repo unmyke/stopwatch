@@ -1,43 +1,19 @@
-import React, { useEffect } from "react";
+import React from "react";
 import Interval from "../interval";
 
-import useTimerReducer from "./use-timer-reducer";
+import useTimer from "./use-timer";
 
 const TimerComponent = ({ currentInterval }) => {
   // state
   const [
-    { currentTime, currentIntervalId },
-    { dispatchIncreaseTime, dispatchUpdateIntervalId, dispatchReset }
-  ] = useTimerReducer();
+    { currentTime, isStarted },
+    { handleStart, handleStop }
+  ] = useTimer(currentInterval);
 
   // boolean state representation
-  const isStarted = currentIntervalId !== 0;
   const isStopped = !isStarted;
   const intervalIsNotSetted = currentInterval === 0;
   const startIsDisable = intervalIsNotSetted || isStarted;
-
-  // button handlers
-  const handleStart = () => {
-    const nextIntervalId = setInterval(() => {
-      dispatchIncreaseTime(currentInterval);
-    }, currentInterval * 1000);
-
-    dispatchUpdateIntervalId(nextIntervalId);
-  };
-
-  const handleStop = () => {
-    if (isStarted) {
-      clearInterval(currentIntervalId);
-      dispatchReset();
-    }
-  };
-
-  // lifecycle hooks
-  useEffect(() => {
-    return () => {
-      handleStop()
-    }
-  })
 
   // render
   return (
