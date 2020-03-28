@@ -1,35 +1,19 @@
 import React from "react";
-import PropTypes from "prop-types";
+import useStore from "./use-store";
 
 const connect = (mapStateToProps, mapDispatchToProps) => Component => {
-  class WrappedComponent extends React.Component {
-    render() {
-      return (
-        <Component
-          {...this.props}
-          {...mapStateToProps(this.context.store.getState(), this.props)}
-          {...mapDispatchToProps(this.context.store.dispatch, this.props)}
-        />
-      );
-    }
+  
+  const WrappedComponent = (props) => {
+    const { getState, dispatch } = useStore();
 
-    componentDidMount() {
-      this.context.store.subscribe(this.handleChange);
-    }
-
-    componentWillUnmount() {
-      this.context.store.unsubscribe(this.handleChange);
-    }
-
-    handleChange = () => {
-      this.forceUpdate();
-    };
-  }
-
-  WrappedComponent.contextTypes = {
-    store: PropTypes.object
+    return (
+      <Component
+          {...props}
+          {...mapStateToProps(getState(), props)}
+          {...mapDispatchToProps(dispatch, props)}
+    />
+    );
   };
-
   return WrappedComponent;
 };
 
